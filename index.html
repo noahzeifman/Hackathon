@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Check & Light Therapy Suggestion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cabin', sans-serif;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .gradient-background {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2, #fcb69f, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="gradient-background min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white bg-opacity-90 p-8 rounded-3xl shadow-lg max-w-md w-full transition-all duration-300 hover:shadow-xl backdrop-filter backdrop-blur-sm">
+        <h1 class="text-3xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Mood Check & Light Therapy</h1>
+        <form id="moodForm" class="space-y-6">
+            <div class="fade-in" style="animation-delay: 0.1s;">
+                <label for="mood" class="block mb-2 font-medium text-gray-700">How's your mood today?</label>
+                <select id="mood" name="mood" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-300" required>
+                    <option value="">Select your mood</option>
+                    <option value="great">Great</option>
+                    <option value="good">Good</option>
+                    <option value="okay">Okay</option>
+                    <option value="low">Low</option>
+                    <option value="bad">Bad</option>
+                </select>
+            </div>
+            <div class="fade-in" style="animation-delay: 0.2s;">
+                <label for="energy" class="block mb-2 font-medium text-gray-700">Energy level?</label>
+                <select id="energy" name="energy" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" required>
+                    <option value="">Select your energy level</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+            <div class="fade-in" style="animation-delay: 0.3s;">
+                <label for="sleep" class="block mb-2 font-medium text-gray-700">Sleep quality last night?</label>
+                <select id="sleep" name="sleep" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300" required>
+                    <option value="">Select your sleep quality</option>
+                    <option value="great">Great</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                    <option value="poor">Poor</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
+                Get Light Therapy Suggestion
+            </button>
+        </form>
+        <div id="result" class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg hidden fade-in">
+            <h2 class="font-bold mb-3 text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Your Light Therapy Suggestion:</h2>
+            <p id="suggestion" class="text-gray-800"></p>
+            <p class="mt-4 text-sm text-gray-600 italic">Remember, this is a general suggestion. Always consult with a healthcare professional before starting any new therapy regimen.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('moodForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const mood = document.getElementById('mood').value;
+            const energy = document.getElementById('energy').value;
+            const sleep = document.getElementById('sleep').value;
+
+            let suggestion = '';
+
+            if (mood === 'low' || mood === 'bad' || energy === 'low' || sleep === 'poor') {
+                suggestion = "Consider a 30-minute morning light therapy session using a 10,000 lux light box. Place it about 16-24 inches from your face, but don't look directly at the light. This may help boost your mood and energy levels.";
+            } else if (mood === 'okay' || energy === 'medium' || sleep === 'fair') {
+                suggestion = "Try a 20-minute light therapy session in the morning using a 10,000 lux light box. This can help maintain and potentially improve your current state.";
+            } else {
+                suggestion = "Your mood and energy seem good! To maintain this, you might benefit from a short 10-15 minute light therapy session in the morning, especially during darker months.";
+            }
+
+            document.getElementById('suggestion').textContent = suggestion;
+            document.getElementById('result').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
